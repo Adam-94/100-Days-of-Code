@@ -45,12 +45,10 @@ void Menu::optionSelction()
 void Menu::addStudent(Student* addS)
 {
     std::cout << std::string(100, '\n');
-
-    int numOfStudents;
     std::cout << "Enter the amount of students: ";
-    std::cin >> numOfStudents;
+    addS->enterNumOfStudents();
 
-    for (int i = 1; i <= numOfStudents; ++i)
+    for (int i = 1; i <= addS->getNumOfStudents(); ++i)
     {
         std::cout << i << "\t" << "Student ID:\t";
         addS->enterStudentID();
@@ -73,7 +71,18 @@ void Menu::dispalyRegister()
 
     std::string regdisplay
     {
-      "\t_____________________________________________\n"
-      "\t| \tID | \tGroup ID | \tName | \tAttendance |\n"
+        "\t____________________________________________________\n"
+        "\t| \tID | \tGroup ID | \tName | \tAttendance |\n"
     };
+
+    std::cout << regdisplay;
+
+    for (auto& it : students)
+    {
+        std::cout << "\t____________________________________________________\n"
+                  << "\t| \t" << it.getStudentID()
+                  << "| \t" << it.getGroupID()
+                  << "| \t" << it.getStudentName()
+                  << "| \t" << it.getAttendance() << "|\n";
+    }
 }
