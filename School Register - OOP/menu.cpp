@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <iomanip>
 
 Menu::Menu(std::vector<Student>& v) : students(v)
 {
@@ -36,9 +37,12 @@ void Menu::optionSelction()
     std::cout << "\nPress (1-7): ";
     std::cin >> select;
 
-    while (select < 1 || select > 7)
+    while (std::cin.fail() || select < 1 || select > 7)
     {
-        std::cout << "Wrong input, try again: ";
+        std::cin.clear();
+        std::cin.ignore();
+        std::cout << "Not valid try again: ";
+        std::cin >> select;
     }
 }
 
@@ -68,21 +72,16 @@ void Menu::addStudent(Student* addS)
 
 void Menu::dispalyRegister()
 {
-
-    std::string regdisplay
-    {
-        "\t____________________________________________________\n"
-        "\t| \tID | \tGroup ID | \tName | \tAttendance |\n"
-    };
-
-    std::cout << regdisplay;
+    std::cout << std::setw(15) << "[ID]"
+              << std::setw(15) << "[GROUP ID]"
+              << std::setw(15) << "[NAME]"
+              << std::setw(15) << "[Attendance]" << "\n";
 
     for (auto& it : students)
     {
-        std::cout << "\t____________________________________________________\n"
-                  << "\t| \t" << it.getStudentID()
-                  << "| \t" << it.getGroupID()
-                  << "| \t" << it.getStudentName()
-                  << "| \t" << it.getAttendance() << "|\n";
+        std::cout << std::setw(15) << it.getStudentID()
+                  << std::setw(15) << it.getGroupID()
+                  << std::setw(15) << it.getStudentName()
+                  << std::setw(15) << it.getAttendance() << "\n";
     }
 }
