@@ -6,31 +6,32 @@
 class Student
 {
 private:
-    std::string studentID;
-    std::string studentName;
-    std::string groupID;
+    int studentID;
+    int groupID;
     int attendanceRecord;
     int NumOfStudents;
+    std::string studentName;
 
 public:
-    std::string getStudentID() { return studentID; }
-    std::string getStudentName() { return studentName; }
-    std::string getGroupID() { return groupID; }
+    int getStudentID() { return studentID; }
+    int getGroupID() { return groupID; }
     int getAttendance() { return attendanceRecord; }
     int getNumOfStudents() { return NumOfStudents; }
+    std::string getStudentName() { return studentName; }
 
+    virtual void enterStudentID();
+    virtual void enterStudentName();
+    virtual void enterGroupID();
+    virtual void enterAttendance();
+    virtual void enterNumOfStudents();
 
-    virtual void enterStudentID() { std::cin >> studentID; }
-    virtual void enterStudentName() { std::cin >> studentName; }
-    virtual void enterGroupID() { std::cin >> groupID; }
-    virtual void enterAttendance() { std::cin >> attendanceRecord; }
-    virtual void enterNumOfStudents() { std::cin >> NumOfStudents; }
-
-    void setStudentID(std::string ID) { studentID = ID; }
+    void setStudentID(int ID) { studentID = ID; }
     void setStudentName(std::string N) { studentName = N; }
-    void setGroupID(std::string ID) { groupID = ID; }
+    void setGroupID(int ID) { groupID = ID; }
     void setAttendance(int A) { attendanceRecord = A; }
     void setNumOfStudents(int N) { NumOfStudents = N; }
+
+    template<typename T> void checkUserInput(T& t);
 };
 
 #endif // STUDENT_H
