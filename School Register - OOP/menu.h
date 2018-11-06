@@ -22,8 +22,11 @@ public:
     void createTimetable(Timetable*);
     void createGroup(Student*);
 
-    void dispalyRegister();
+    void displayRegister();
+    void returnToMenu();
     int calculateAttendance();
+
+    void clearScreen();
 };
 
 #endif // MENU_H

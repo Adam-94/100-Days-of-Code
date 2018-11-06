@@ -5,10 +5,35 @@
 #include <vector>
 #include <string>
 #include <iomanip>
+#include <windows.h>
 
 Menu::Menu(std::vector<Student>& v) : students(v)
 {
 
+}
+
+void Menu::clearScreen()
+{
+    DWORD n;                         /* Number of characters written */
+    DWORD size;                      /* number of visible characters */
+    COORD coord = {0};               /* Top left screen position */
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+    /* Get a handle to the console */
+    HANDLE h = GetStdHandle ( STD_OUTPUT_HANDLE );
+
+    GetConsoleScreenBufferInfo ( h, &csbi );
+
+    /* Find the number of characters to overwrite */
+    size = csbi.dwSize.X * csbi.dwSize.Y;
+
+    /* Overwrite the screen buffer with whitespace */
+    FillConsoleOutputCharacter ( h, TEXT ( ' ' ), size, coord, &n );
+    GetConsoleScreenBufferInfo ( h, &csbi );
+    FillConsoleOutputAttribute ( h, csbi.wAttributes, size, coord, &n );
+
+    /* Reset the cursor to the top left position */
+    SetConsoleCursorPosition ( h, coord );
 }
 
 void Menu::displayOptions()
@@ -28,13 +53,12 @@ void Menu::displayOptions()
         std::cout << "\t" << options << "\n";
     }
     input.close();
-    optionSelction();
 }
 
 void Menu::optionSelction()
 {
-    int select;
-    std::cout << "\nPress (1-7): ";
+    int select = 0;
+    std::cout << "\n\nPress (1-7): ";
     std::cin >> select;
 
     while (std::cin.fail() || select < 1 || select > 7)
@@ -44,12 +68,13 @@ void Menu::optionSelction()
         std::cout << "Not valid try again: ";
         std::cin >> select;
     }
+    clearScreen();
+    displayOptions();
 }
 
 void Menu::addStudent(Student* addS)
-{
-    std::cout << std::string(100, '\n');
-    std::cout << "Enter the amount of students: ";
+{ 
+    std::cout << "\n\nEnter the amount of students: ";
     addS->enterNumOfStudents();
 
     for (int i = 1; i <= addS->getNumOfStudents(); ++i)
@@ -66,22 +91,25 @@ void Menu::addStudent(Student* addS)
         students.push_back(*addS);
         std::cout << "\n\n";
     }
-
-
+    clearScreen();
 }
 
-void Menu::dispalyRegister()
+void Menu::displayRegister()
 {
-    std::cout << std::setw(15) << "[ID]"
-              << std::setw(15) << "[GROUP ID]"
-              << std::setw(15) << "[NAME]"
-              << std::setw(15) << "[Attendance]" << "\n";
+    displayOptions();
+
+    std::cout << "\n\n";
+    std::cout << '\t' << std::left << std::setw(15) << "[ID]"
+              << '\t' << std::left << std::setw(15) << "[GROUP ID]"
+              << '\t' << std::left << std::setw(15) << "[NAME]"
+              << '\t' << std::left << std::setw(15) << "[Attendance]" << "\n";
 
     for (auto& it : students)
     {
-        std::cout << std::setw(15) << it.getStudentID()
-                  << std::setw(15) << it.getGroupID()
-                  << std::setw(15) << it.getStudentName()
-                  << std::setw(15) << it.getAttendance() << "\n";
+
+        std::cout << '\t' << std::left << std::setw(15) << it.getStudentID()
+                  << '\t' << std::left << std::setw(15) << it.getGroupID()
+                  << '\t' << std::left << std::setw(15) << it.getStudentName()
+                  << '\t' << std::left << std::setw(15) << it.getAttendance() << "\n";
     }
 }

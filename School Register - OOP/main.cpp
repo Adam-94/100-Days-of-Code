@@ -7,12 +7,13 @@
 int main()
 {
     std::vector<Student> v;
-    Menu m = Menu(v);
+    Menu* m = new Menu(v);
 
 
-    m.displayOptions();
-    m.addStudent(new Student);
-    m.dispalyRegister();
+    m->displayOptions();
+    m->optionSelction();
+    m->addStudent(new Student);
+    m->displayRegister();
 
     return 0;
 }
